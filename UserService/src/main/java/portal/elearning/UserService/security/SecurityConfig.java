@@ -13,10 +13,14 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable()) // modern way to disable CSRF
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/register").permitAll() // public endpoints
+                        .requestMatchers("/register","/login","/getAllUsers").permitAll() // public endpoints
                         .anyRequest().authenticated()                       // secure others
-                );
+                ).formLogin(form -> form.disable()) // disable Spring Security default login form
+                .httpBasic(httpBasic -> httpBasic.disable());
+        // disable basic auth if not needed;
 
         return http.build();
     }
 }
+//when we add spring-security dependency im pom.xml it automatically blocks all the http request except/error
+// thus we need to create the security config file
