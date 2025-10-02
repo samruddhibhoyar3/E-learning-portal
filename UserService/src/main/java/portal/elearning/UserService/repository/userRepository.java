@@ -1,7 +1,9 @@
 package portal.elearning.UserService.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
+import portal.elearning.UserService.dto.userRequestDto;
 import portal.elearning.UserService.entity.userEntity;
 
 import java.util.Optional;
@@ -10,6 +12,8 @@ import java.util.Optional;
 public interface userRepository extends JpaRepository<userEntity,Integer> {
     Optional<userEntity> findByEmail(String email);
 
+    //userEntity saveUser(userEntity newUser);
 
 
+    //ResponseEntity<userRequestDto> saveUser(userEntity newUser);
 }

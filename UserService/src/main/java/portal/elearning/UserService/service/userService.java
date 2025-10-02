@@ -1,6 +1,7 @@
 package portal.elearning.UserService.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import portal.elearning.UserService.dto.userRequestDto;
 import portal.elearning.UserService.dto.userResponseDto;
@@ -15,7 +16,7 @@ public interface userService {
 
 
      boolean userLogin(userRequestDto userDTO);
-     boolean userRegister(userRequestDto userDTO);
+     userEntity userRegister(userEntity userDTO);
     userEntity saveUser(userEntity user);
     void deleteUser(Integer id);
     List<userEntity> getAllusers();

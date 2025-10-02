@@ -1,6 +1,7 @@
 package portal.elearning.UserService.serviceImpl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import portal.elearning.UserService.dto.userRequestDto;
 import portal.elearning.UserService.dto.userResponseDto;
@@ -16,7 +17,7 @@ public class userServiceImpl implements userService {
 
     @Autowired
     private userRepository userRepository;
-    @Autowired
+
     private userEntity userEntity;
 
     public boolean userLogin(userRequestDto userDTO){
@@ -27,16 +28,27 @@ public class userServiceImpl implements userService {
         return false;
     }
 
-    public boolean userRegister(userRequestDto userDTO){
-    //    userRepository.save(userEntity);
-        if(!userDTO.getEmail().contains("@"))return false;
-        return true;
+    public userEntity userRegister(userEntity userDTO){
+        // Check if email already exists
+        if (userRepository.findByEmail(userDTO.getEmail()).isPresent()) {
+            return null; // means registration failed
+        }
+
+        // Map DTO → Entity
+        userEntity newUser = userEntity.builder()
+                .name(userDTO.getName())
+                .email(userDTO.getEmail())
+                .password(userDTO.getPassword())
+                .build();
+
+        // Save entity in DB
+        return userRepository.save(newUser);
+
     }
 
     @Override
     public userEntity saveUser(userEntity user) {
-        userRepository.save(user);
-        return user;
+        return userRepository.save(user);
     }
 
     @Override

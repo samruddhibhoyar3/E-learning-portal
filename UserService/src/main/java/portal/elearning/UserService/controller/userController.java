@@ -2,6 +2,7 @@ package portal.elearning.UserService.controller;
 
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import portal.elearning.UserService.dto.userRequestDto;
 import portal.elearning.UserService.dto.userResponseDto;
@@ -17,15 +18,19 @@ import java.util.List;
 public class userController {
 
     @Autowired
-    userService userService;
-    userRepository userRepository;
+    private userService userService;
+
+
+   // private userRepository userRepository;
 
     @PostMapping("/register")
-    public String register(@RequestBody @Valid userRequestDto userDTO){
-        if(userService.userRegister(userDTO))
-            return "User Registered Successfully";
-        else
-            return "User not Registered due to incorrect information!";
+    ResponseEntity<?> register(@RequestBody @Valid userEntity userDTO){
+        userEntity savedUser=userService.userRegister(userDTO);
+        if(savedUser!=null){
+            return ResponseEntity.ok("registered!");
+        }else{
+            return ResponseEntity.badRequest().body("user already registered!");
+        }
     }
     @PostMapping("/login")
     public String login(@RequestBody @Valid userRequestDto userDTO){
